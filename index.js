@@ -1,3 +1,6 @@
+// Servidor Express.js con autenticación JWT
+// Autor: Carlos
+// Fecha: Abril 2026
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
