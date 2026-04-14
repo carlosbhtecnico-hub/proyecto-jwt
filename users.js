@@ -1,3 +1,5 @@
+// Usuarios ficticios - Autor: Carlos
+// En producción esto vendría de una base de datos real
 const users = [
   {
     id: 1,
