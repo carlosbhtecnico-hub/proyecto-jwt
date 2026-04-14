@@ -21,22 +21,26 @@ app.use(cookieParser()); // Permite manejar cookies
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
+// Validar que se envíen los datos
   if (!username || !password) {
     return res.status(400).json({
       message: "Por favor proporciona usuario y contraseña.",
     });
   }
 
+  // Buscar usuario en el arreglo
   const usuarioEncontrado = users.find(
     (u) => u.username === username && u.password === password
   );
 
+  // Si no existe, retornar error 401
   if (!usuarioEncontrado) {
     return res.status(401).json({
       message: "Credenciales incorrectas. No autorizado.",
     });
   }
 
+  // Generar token JWT con duración de 1 hora
   const token = jwt.sign(
     { id: usuarioEncontrado.id, username: usuarioEncontrado.username },
     SECRET_KEY,
