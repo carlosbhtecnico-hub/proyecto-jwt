@@ -105,14 +105,14 @@ app.get("/", (req, res) => {
 app.get("/sesion", (req, res) => {
   const token = req.cookies.token;
 
-  // Si no hay token → no hay sesión
+  // Si no hay token no se inicia sesión
   if (!token) {
     return res.status(401).json({
       message: "No hay sesión activa. Usuario no autenticado."
     });
   }
 
-  // Si existe token → sesión activa
+  // Si existe token la sesión se activa
   return res.status(200).json({
     message: "Sesión activa. Usuario autenticado correctamente."
   });
