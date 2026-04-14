@@ -1,19 +1,23 @@
-// Servidor Express.js con autenticación JWT
-// Autor: Carlos
-// Fecha: Abril 2026
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser");
-const users = require("./users");
-const verificarToken = require("./middleware/authMiddleware");
+// Importación de librerías necesarias
+const express = require("express"); // Framework para crear el servidor
+const jwt = require("jsonwebtoken"); // Para generar y validar tokens JWT
+const cookieParser = require("cookie-parser"); // Permite leer cookies
+const users = require("./users"); // Usuarios ficticios
+const verificarToken = require("./middleware/authMiddleware"); // Middleware de autenticación
 
+// Configuración básica del servidor
 const app = express();
 const PORT = 3000;
 const SECRET_KEY = "mi_clave_secreta_super_segura";
 
-app.use(express.json());
-app.use(cookieParser());
+// Middlewares globales
+app.use(express.json()); // Permite recibir datos en formato JSON
+app.use(cookieParser()); // Permite manejar cookies
 
+// ==========================
+//        RUTA LOGIN
+// ==========================
+// Permite autenticar al usuario y generar un token JWT
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
