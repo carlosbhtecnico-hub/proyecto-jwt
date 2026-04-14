@@ -47,16 +47,23 @@ app.post("/login", (req, res) => {
     { expiresIn: "1h" }
   );
 
+  //Enviar token como cookie segura
   res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    maxAge: 3600000,
+    httpOnly: true, //No accesible desde JS (protege contra xss)
+    secure: false, //En produccion deberia ser true (HTTPS)
+    maxAge: 3600000, //1 Hora
   });
 
+//Respuesta exitosa
   return res.status(200).json({
     message: `Bienvenido/a, ${usuarioEncontrado.username}!`,
   });
 });
+
+// ==========================
+//  RUTA PROTEGIDA (/perfil)
+// ==========================
+// Solo accesible si el token JWT es válido
 
 app.get("/perfil", verificarToken, (req, res) => {
   return res.status(200).json({
@@ -68,17 +75,52 @@ app.get("/perfil", verificarToken, (req, res) => {
   });
 });
 
-app.post("/logout", (req, res) => {
-  res.clearCookie("token");
+// ==========================
+//        RUTA LOGOUT
+// ==========================
+// Permite cerrar sesión eliminando la cookie del token
+app.post('/logout', (req, res) => {
+  console.log("Usuario cerró sesión"); // Registro en consola
+
+  // Elimina la cookie del navegador
+  res.clearCookie('token');
+
   return res.status(200).json({
-    message: "Sesión cerrada correctamente.",
+    message: 'Logout realizado correctamente.'
   });
 });
 
+// ==========================
+//     RUTA PRINCIPAL
+// ==========================
+// Ruta base del servidor
 app.get("/", (req, res) => {
   res.send("Servidor Express con JWT funcionando ✅");
 });
 
+// ==========================
+//       RUTA SESIÓN
+// ==========================
+// Verifica si el usuario tiene una sesión activa
+app.get("/sesion", (req, res) => {
+  const token = req.cookies.token;
+
+  // Si no hay token → no hay sesión
+  if (!token) {
+    return res.status(401).json({
+      message: "No hay sesión activa. Usuario no autenticado."
+    });
+  }
+
+  // Si existe token → sesión activa
+  return res.status(200).json({
+    message: "Sesión activa. Usuario autenticado correctamente."
+  });
+});
+
+// ==========================
+//    INICIO DEL SERVIDOR
+// ==========================
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
