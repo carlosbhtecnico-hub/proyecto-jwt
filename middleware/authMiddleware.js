@@ -13,6 +13,8 @@ function verificarToken(req, res, next) {
     });
   }
 
+// Intentamos verificar el token con la clave secreta
+// Si falla significa que el token es invalido o expiro
   try {
     const datosUsuario = jwt.verify(token, SECRET_KEY);
     req.usuario = datosUsuario;
