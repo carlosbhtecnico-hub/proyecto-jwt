@@ -17,7 +17,7 @@ function verificarToken(req, res, next) {
 // Si falla significa que el token es invalido o expiro
   try {
     const datosUsuario = jwt.verify(token, SECRET_KEY);
-    req.usuario = datosUsuario;
+    req.usuario = datosUsuario; console.log(`Acceso autorizado para usuario: ${datosUsuario.usuario}`);
     next();
   } catch (error) {
     return res.status(401).json({
