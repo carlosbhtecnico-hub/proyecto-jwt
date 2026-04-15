@@ -9,7 +9,7 @@ function verificarToken(req, res, next) {
 
   if (!token) {
     return res.status(401).json({
-      message: "Acceso denegado. No hay token de sesión.",
+      message: "Acceso denegado. Debes iniciar sesion para continuar.",
     });
   }
 
