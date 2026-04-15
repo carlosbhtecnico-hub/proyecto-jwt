@@ -1,3 +1,5 @@
+// Middleware creado por Diego 
+// Verifica que el token JWT sea valido antes de dar acceso
 const jwt = require("jsonwebtoken");
 
 const SECRET_KEY = "mi_clave_secreta_super_segura";
